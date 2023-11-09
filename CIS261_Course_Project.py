@@ -28,7 +28,7 @@ def printInfo(name, hours, hourly_rate, gross, tax_rate, income_tax, net_pay):
 def totals():
     print(f"\nTotal Employees:{total_employees}")
     print(f"Total Hours: {total_hours:,.2f}")
-    print(f"Total Gross Pay: {totalGross_pay:,2f}")
+    print(f"Total Gross Pay: {totalGross_pay:,.2f}")
     print(f"Total Taxes: {total_tax:,.2f}")
     print(f"Total Net Pay: {total_netpay:.2f}")
     
@@ -55,7 +55,7 @@ if __name__ == "__main__":
         total_tax += income_tax
         total_netpay += net_pay
     
-    totals(total_employees, total_hours, totalGross_pay, total_tax, total_netpay)
+        totals()
     
     
                  
