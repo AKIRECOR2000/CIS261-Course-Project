@@ -27,7 +27,7 @@ def TaxAndNet(hours, hourly_rate, tax_rate):
     net_pay = gross - income_tax
     return gross, income_tax, net_pay
      
-def printInfo(detail_list):
+def printInfo(EmpDetailList):
     total_employees = 0
     total_hours = 0.00
     totalGross_pay = 0.00
@@ -63,6 +63,44 @@ def totals():
     print(f'Total Taxes:    {emp_totals["totTax"]}')
     print(f'Total Net Pay:    {emp_totals["totNet"]}')
     
+def write_empInfo(employee):
+    file = open("employeeinfo.txt", "a")
+    
+    file.write('{}|{}|{}|{}|{}|{}\n'.format(employee[0], employee[1], employee[2], employee[3], employee[4], employee[5]))
+    
+def get_fromDate():
+    valid = False
+    startDate = ""
+    while not valid:
+        startDate = input("Enter from Date (mm/dd/yyy): ")
+        
+        if (len(startDate.split('/')) != 3 and startDate.upper() != 'ALL'):
+            print("This format is invalid.")
+        else:
+            valid = True
+    return startDate
+
+def Read_empInfo(startDate):
+    EmpDetailList = []
+    
+    file = open("employeeinfo.txt", "r")
+    data = file.readlines()
+    
+    condition = True
+    if startDate.upper() == 'ALL':
+        condition = False
+ 
+    for employee in data:
+        employee = [x.strip() for x in employee.strip().split("|")]
+    
+        if not condition:
+            EmpDetailList.append([employee[0], employee[1], employee[2], float(employee[3]), float(employee[4]), float(employee[5])])
+        else:
+            if startDate == employee[0]:
+                EmpDetailList.append([employee[0], employee[1], employee[2], float(employee[3]), float(employee[4]), float(employee[5])])
+
+        return EmpDetailList    
+
 if __name__ == "__main__":
     detail_list = []
     emp_totals = {}
@@ -74,16 +112,22 @@ if __name__ == "__main__":
         hours = hours_worked()
         hourly_rate = hourlyRate()
         tax_rate = taxRate()
-        empDetail = []
-        empDetail.insert(0, startDate)
-        empDetail.insert(1, endDate)
-        empDetail.insert(2, name)
-        empDetail.insert(3, hours)
-        empDetail.insert(4, hourly_rate)
-        empDetail.insert(5, tax_rate)
-        detail_list.append(empDetail)
-    printInfo(detail_list)
-    totals()
+        
+        print()
+        
+        EmpDetail = [startDate, endDate, name, hours, hourly_rate, tax_rate]
+        
+        write_empInfo(EmpDetail)
+        
+    print()
+    print()
+    startDate = get_fromDate()
     
+    EmpDetailList = Read_empInfo(startDate)
+    
+    print()
+    printInfo(EmpDetailList)
+    print()
+    totals()
     
                  
