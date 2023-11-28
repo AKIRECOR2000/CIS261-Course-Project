@@ -33,7 +33,8 @@ def printInfo(EmpDetailList):
     totalGross_pay = 0.00
     total_tax = 0.00
     total_netpay = 0.00
-    for empList in detail_list:
+    
+    for empList in EmpDetailList:
         startDate = empList[0]
         endDate = empList[1]
         name = empList[2]
@@ -56,28 +57,28 @@ def printInfo(EmpDetailList):
         emp_totals["totTax"] = total_tax
         emp_totals["totNet"] = total_netpay
 
-def totals():
-    print(f'Total Employees:   {emp_totals["totEmp"]}')
-    print(f'Total Hours:    {emp_totals["totHours"]}')
-    print(f'Total Gross Pay:    {emp_totals["totGross"]}')
-    print(f'Total Taxes:    {emp_totals["totTax"]}')
-    print(f'Total Net Pay:    {emp_totals["totNet"]}')
+def totals(emp_totals):
+    print(f"Total Employees: {emp_totals['totEmp']}")
+    print(f"Total Hours: {emp_totals['totHours']}")
+    print(f"Total Gross Pay: {emp_totals['totGross']:,.2f}")
+    print(f"Total Taxes: {emp_totals['totTax']:,.2f}")
+    print(f"Total Net Pay: {emp_totals['totNet']:,.2f}")
     
 def write_empInfo(employee):
     file = open("employeeinfo.txt", "a")
-    
     file.write('{}|{}|{}|{}|{}|{}\n'.format(employee[0], employee[1], employee[2], employee[3], employee[4], employee[5]))
     
 def get_fromDate():
     valid = False
     startDate = ""
+    
     while not valid:
         startDate = input("Enter from Date (mm/dd/yyy): ")
-        
         if (len(startDate.split('/')) != 3 and startDate.upper() != 'ALL'):
             print("This format is invalid.")
         else:
             valid = True
+    
     return startDate
 
 def Read_empInfo(startDate):
@@ -87,6 +88,7 @@ def Read_empInfo(startDate):
     data = file.readlines()
     
     condition = True
+    
     if startDate.upper() == 'ALL':
         condition = False
  
@@ -98,12 +100,12 @@ def Read_empInfo(startDate):
         else:
             if startDate == employee[0]:
                 EmpDetailList.append([employee[0], employee[1], employee[2], float(employee[3]), float(employee[4]), float(employee[5])])
-
-        return EmpDetailList    
+    return EmpDetailList    
 
 if __name__ == "__main__":
-    detail_list = []
+    EmpDetailList = []
     emp_totals = {}
+    
     while True:
         name = empName()
         if (name.lower() == "end"):
@@ -112,22 +114,16 @@ if __name__ == "__main__":
         hours = hours_worked()
         hourly_rate = hourlyRate()
         tax_rate = taxRate()
-        
         print()
-        
         EmpDetail = [startDate, endDate, name, hours, hourly_rate, tax_rate]
-        
         write_empInfo(EmpDetail)
         
     print()
-    print()
     startDate = get_fromDate()
-    
     EmpDetailList = Read_empInfo(startDate)
-    
     print()
     printInfo(EmpDetailList)
     print()
-    totals()
+    totals(emp_totals)
     
                  
