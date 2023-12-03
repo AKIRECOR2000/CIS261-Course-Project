@@ -1,4 +1,59 @@
 #Akire Cormier, CIS261, Course Project
+from datetime import datetime
+
+def create_users():
+    print('#### Create users, passwords, and roles ####')
+    UserFile = open("Users.txt", "a+")
+    while True:
+        usernamme = GetUsername()
+        if (username.upper() == "END"):
+            break
+        userpwd = GetPassword()
+        userrole =  UserRole()
+        
+        UserDetail = username + "|" + userpwd + "|" + userrole + "\n"
+        UserFile.write(UserDetail)
+        
+    UserFile.close()
+    printuserinfo()
+    
+def GetUsername():
+    username = input("Enter username or 'END' too quit: ")
+    return username
+
+def GetPassword():
+    pwd = input("Enter password: ")
+    return pwd
+
+def UserRole():
+    userrole = input("Enter role(Admin or User): ")
+    while True:
+        if (userrole.upper() == "ADMIN" or userrole.upper() == "USER"):
+            return userrole
+        else:
+            userrole = input("Enter role (Admin or User): ")
+            
+          
+def printuserinfo():
+    UserFile = open("Users.txt", "r")
+    while True:
+        UserDetail = UserFile.readline()
+        if not UserDetail:
+            break
+        UserDetail = UserDetail.replace("\n", "")
+        UserList = UserDetail.split("|")
+        username = UserList[0]
+        userpassword = UserList[1]
+        userrole = UserList[2]
+        print("User Name: ", username, "Password: ", userpassword, "Role: ", userrole)
+        
+
+def Login():
+    UserFile = open("Users.txt", "r")
+    UserList = []
+    UserName = input("Enter User Name: ")
+    
+
 def datesWorked():
     startDate = input("Enter the start date in the format of, MM/DD/YYY:")
     endDate = input("Enter the end date in the format of, MM/DD/YYY:")
